@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: yolo_postgres-with-db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: yolo_user
+      POSTGRES_PASSWORD: yolo_pass
+      POSTGRES_DB: yolo_db
+      TZ: Asia/Jakarta
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yolo_user -d yolo_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  yolo_api-with-db:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: yolo_api-with-db
+    env_file:
+      - .env
+    volumes:
+      - ./api:/app
+      - ./storage:/storage
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_USER: yolo_user
+      POSTGRES_PASSWORD: yolo_pass
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: yolo_db
+      TZ: Asia/Jakarta
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  postgres_data:

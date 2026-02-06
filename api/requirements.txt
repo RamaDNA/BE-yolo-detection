@@ -1,0 +1,10 @@
+ultralytics
+opencv-python-headless
+fastapi
+uvicorn[standard]
+websockets
+pillow
+python-multipart
+sqlalchemy
+psycopg2-binary
+minio

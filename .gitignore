@@ -1,0 +1,16 @@
+# ignore semua isi screenshots
+storage/screenshots/*
+
+# tapi tetap allow folder utamanya
+!storage/screenshots/
+
+# (opsional) kalau mau keep placeholder
+storage/screenshots/**/*
+
+#remove pycache files
+__pycache__/*.pyc
+__pycache__/*.pyo   
+
+*.jpg
+*.png
+*.mp4
