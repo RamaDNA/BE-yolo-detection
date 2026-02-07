@@ -116,4 +116,4 @@ class CameraWorker:
             self.state.counts = counts
             self.state.timestamp = time.time()
 
-            self.last_active_ids = active_ids
+            # self.last_active_ids = active_ids

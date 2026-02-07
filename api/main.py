@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
 
     realtime_manager.register_camera(
         cam_id="cam1",
-        rtsp=os.getenv("CAM_4"),
+        rtsp=os.getenv("IP_PHONE_CAM"),
         p1=(187, 0),
         p2=(100, 160)
     )

@@ -41,6 +41,14 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_DB: yolo_db
       TZ: Asia/Jakarta
+      NVIDIA_VISIBLE_DEVICES: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     depends_on:
       postgres:
         condition: service_healthy
