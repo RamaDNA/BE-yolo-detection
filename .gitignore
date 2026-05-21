@@ -7,10 +7,20 @@ storage/screenshots/*
 # (opsional) kalau mau keep placeholder
 storage/screenshots/**/*
 
+# ignore .env file
+.env
+
 #remove pycache files
 __pycache__/*.pyc
 __pycache__/*.pyo   
 
+# Python cache
+__pycache__/
+*.pyc
+
 *.jpg
 *.png
 *.mp4
+
+#remove pt tensorflow
+*.pt

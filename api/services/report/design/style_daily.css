@@ -1,0 +1,120 @@
+/* WeasyPrint Page Setup - KHUSUS HARIAN (PORTRAIT) */
+@page {
+    size: A4 portrait;
+    margin: 10mm; 
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.pdf-container {
+    width: 100%;
+    max-width: 190mm; /* Lebar maksimal A4 Portrait dikurangi margin */
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+/* HEADER KORPORAT ISO */
+.iso-header { width: 100%; border-collapse: collapse; border: 1.5pt solid #000; }
+.iso-header td { border: 1pt solid #000; padding: 4px; font-size: 9px; font-weight: bold; vertical-align: middle; }
+.logo-img { width: 42px; height: auto; display: block; margin: 0 auto; }
+.title-cell { font-size: 11px; }
+
+/* YELLOW BAR */
+.yellow-bar {
+    background: #ffff00 !important; 
+    border: 1.5pt solid #000; 
+    border-top: none;
+    font-weight: bold; 
+    padding: 6px; 
+    font-size: 11px; 
+    -webkit-print-color-adjust: exact;
+}
+
+/* JUDUL BAGIAN */
+.section-title { 
+    font-size: 10px; 
+    font-weight: bold; 
+    margin: 10px 0 5px 0; 
+    text-decoration: underline; 
+    text-transform: uppercase;
+}
+
+/* GRAFIK HARIAN */
+.chart-wrapper {
+    width: 100%; 
+    margin-top: 5px; 
+    margin-bottom: 10px;
+    padding: 0; 
+    border: none; 
+    box-sizing: border-box;
+}
+.chart-img {
+    width: 100% !important; 
+    height: auto !important;
+    display: block;
+    margin: 0;
+}
+
+/* TABEL HARIAN (24 JAM) */
+.hourly-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.hourly-table th, .hourly-table td { 
+    border: 1pt solid #000; 
+    padding: 3px; /* Padding dirapatkan agar 24 baris muat 1 halaman */
+    font-size: 8px; 
+    color: #000; 
+    vertical-align: middle;
+    text-align: center;
+}
+.hourly-table th { background: #f0f0f0 !important; font-size: 8.5px; -webkit-print-color-adjust: exact; }
+
+.bg-gray { background: #f2f2f2 !important; -webkit-print-color-adjust: exact; }
+.bg-yellow { background: #fef08a !important; -webkit-print-color-adjust: exact; }
+
+/* FOOTER DAN TANDA TANGAN */
+.footer-layout { 
+    width: 100%; 
+    margin-top: 15px; 
+}
+.analysis-box { 
+    float: left; 
+    width: 60%; 
+}
+.signature-box { 
+    float: right; 
+    width: 200px; 
+    font-size: 10px; 
+    text-align: center; 
+}
+.signature-box p { margin: 2px 0; }
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.analysis-text { font-size: 9px; margin-top: 8px; color: #333; }
+.sig-space { height: 45px; width: 100%; margin: 5px 0; }
+
+.grand-total-box {
+    border: 1.5pt solid #000 !important; 
+    padding: 8px;
+    background: #fef08a !important; 
+    display: inline-block; 
+    font-size: 12px;
+    -webkit-print-color-adjust: exact;
+}
+
+.footer-note { 
+    font-size: 7px; 
+    font-style: italic; 
+    margin-top: 15px; 
+    border-top: 1px solid #eee; 
+    padding-top: 5px; 
+}

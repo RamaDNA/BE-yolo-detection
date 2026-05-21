@@ -6,7 +6,7 @@ class ModelLoader:
     _models = {}
 
     @classmethod
-    def load(cls, cam_id, model_path="best_yolo26n_no_shoes_07_02_2026.pt"):
+    def load(cls, cam_id, model_path="best-yolo26m-epochs-30-freeze-10.pt"):
         if cam_id not in cls._models:
             if not os.path.exists(model_path):
                 raise RuntimeError(f"YOLO model not found: {model_path}")

@@ -1,5 +1,6 @@
 from services.websocket_services.camera_worker import CameraWorker
 
+
 class RealtimeManager:
     def __init__(self):
         self.registry = {}
@@ -10,9 +11,14 @@ class RealtimeManager:
         return self.registry[cam_id]
 
     def start_all(self):
-        """Start semua kamera yang sudah diregister."""
-        for cam_id, worker in self.registry.items():
+        print("Starting all cameras...")
+        for worker in self.registry.values():
             worker.start()
+
+    def stop_all(self):
+        print("Stopping all cameras...")
+        for worker in self.registry.values():
+            worker.stop()
 
     def get_state(self, cam_id):
         worker = self.registry.get(cam_id)

@@ -1,10 +1,24 @@
+# --- Core AI & Vision ---
 ultralytics
 opencv-python-headless
+pillow
+
+# --- Web Server & API ---
 fastapi
 uvicorn[standard]
-websockets
-pillow
 python-multipart
+websockets
+
+# --- Database & Storage ---
 sqlalchemy
 psycopg2-binary
 minio
+
+# --- Auto Report & Scheduler ---
+apscheduler
+weasyprint
+jinja2
+matplotlib
+
+# --- External API Clients ---
+requests

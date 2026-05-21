@@ -4,10 +4,6 @@ from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 import os
 
-# routers
-#minio router
-from routers import minio_router
-
 #from routers import detection_router
 from routers import line_detect_realtime_ws_v2
 # from routers.rest_state_router import router as rest_state_router
@@ -18,6 +14,13 @@ from routers.daily_counts_event_router import router as daily_counts_event_route
 from services.websocket_services.realtime_manager import realtime_manager
 from db.init_db import init_db
 
+# --- TAMBAHAN 1: IMPORT SCHEDULER ---
+from services.report.manager.scheduler import start_report_scheduler
+from services.report.manager.scheduler_office import start_report_scheduler as start_report_scheduler_office
+
+# --- TAMBAHAN 2: IMPORT SCHEDULER HARIAN ---
+from services.report.manager.scheduler_office_daily import start_daily_scheduler as start_report_scheduler_office_daily
+# ------------------------------------
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,14 +30,31 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"Error initializing database: {e}")
 
-    # REGISTER CAMERA 
+    # --- SEND REPORT BY EMAIL USING CRON JOB  ---
+    #--- issue SMTP port 587 connection must unlock by firewall ---
+    try:
+        # start_report_scheduler()
+        start_report_scheduler_office()
+        # start_report_scheduler_office_daily()
+        print("Auto-Report Scheduler is active")
+    except Exception as e:
+        print(f"Error starting report scheduler: {e}")
+    # --------------------------------------
 
+    # REGISTER CAMERA
     realtime_manager.register_camera(
         cam_id="cam1",
         rtsp=os.getenv("CAM_4"),
-        p1=(187, 0),
-        p2=(100, 160)
+        p1=(1000, 0),
+        p2=(1000, 1450)
     )
+
+    # realtime_manager.register_camera(
+    #     cam_id="cam2",
+    #     rtsp=os.getenv("CAM_5"),
+    #     p1=(1000, 0),
+    #     p2=(1000, 1450)
+    # )
 
     # START
     realtime_manager.start_all()
@@ -64,12 +84,7 @@ app.add_middleware(
     expose_headers=["*"]
 )
 
-# routers
-#app.include_router(detection_router.router, prefix="/api")
-# app.include_router(line_detect_realtime_ws_v2.router)
-# app.include_router(rest_state_router, prefix="/api")
 app.include_router(ws_realtime_router)
-app.include_router(minio_router.router, prefix="/api")
 app.include_router(screenshots_router, prefix="/api")
 app.include_router(daily_counts_event_router, prefix="/api")
 

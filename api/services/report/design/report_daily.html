@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Laporan Harian APD</title>
+</head>
+<body>
+    <div id="pdf-content" class="pdf-container">
+        <table class="iso-header">
+            <tr>
+                <td rowspan="3" class="logo-cell">
+                    <img src="logo.png" alt="Logo" class="logo-img" />
+                </td>
+                <td rowspan="2" class="title-cell text-center">
+                    SISTEM MANAJEMEN TERINTEGRASI<br>
+                    (MUTU, K3, LINGKUNGAN DAN ENERGI)
+                </td>
+                <td class="meta-label">No. Document</td>
+                <td class="meta-value">JCC-MR-PS-003-F006</td>
+            </tr>
+            <tr>
+                <td class="meta-label">Effective date</td>
+                <td class="meta-value">2-Jan-17</td>
+            </tr>
+            <tr>
+                <td class="title-sub-cell text-center">LAPORAN PELANGGARAN APD HARIAN (AI VISION)</td>
+                <td class="meta-label">Revision</td>
+                <td class="meta-value">1</td>
+            </tr>
+        </table>
+
+        <div class="yellow-bar text-center">
+            SUMMARY OF VIOLATION AUDITS - TANGGAL {{ target_date_label | upper }}
+        </div>
+
+        <div class="section-title">1. DATA PELANGGARAN APD PER JAM</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-jenis text-center" rowspan="2">Jenis Pelanggaran</th>
+                    {% for hour in hourly_data %}
+                    <th class="date-col text-center" style="font-size: 6.5px;">{{ hour.hourLabel }}</th>
+                    {% endfor %}
+                    <th class="col-total text-center" rowspan="2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key in violation_keys %}
+                <tr>
+                    <td class="text-left"><strong>{{ label_map[key] }}</strong></td>
+                    {% for hour in hourly_data %}
+                    <td class="text-center">
+                        {{ hour.counts.get(key, '-') if hour.counts.get(key, 0) > 0 else '-' }}
+                    </td>
+                    {% endfor %}
+                    <td class="text-center bg-gray">
+                        <strong>{{ row_totals[key] }}</strong>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="bg-gray">
+                    <td class="text-center"><strong>TOTAL PER JAM</strong></td>
+                    {% for hour in hourly_data %}
+                    <td class="text-center"><strong>{{ hour.total }}</strong></td>
+                    {% endfor %}
+                    <td class="text-center"><strong>{{ grand_total }}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="section-title">2. ANALISIS TREN PER JAM (00:00 - 23:59)</div>
+        <div class="chart-wrapper">
+            <img src="data:image/png;base64,{{ chart_base64 }}" alt="Grafik Tren" class="chart-img">
+        </div>
+
+        <div class="footer-layout clearfix">
+            <div class="analysis-box">
+                <div class="section-title" style="margin-top: 0;">3. RINGKASAN DATA</div>
+                <div class="grand-total-box">
+                    Grand Total Hari Ini: <strong>{{ grand_total }} Pelanggaran</strong>
+                </div>
+                <p class="analysis-text">
+                    Grafik tren per jam deteksi AI Vision selama periode {{ target_date_label }}.
+                </p>
+            </div>
+
+            <div class="signature-box text-center">
+                <p>Tangerang, {{ today_label }}</p>
+                <p>HSE Officer</p>
+                <div class="sig-space"></div>
+                <p><strong>( .................................... )</strong></p>
+                <p>Nama Lengkap</p>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            *Laporan ini dihasilkan otomatis oleh Sistem Monitoring AI Vision PT Jembo Cable.
+        </div>
+    </div>
+</body>
+</html>
